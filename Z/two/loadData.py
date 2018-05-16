@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 def generate_disc_set(nb):
     """
-    Generates a number 'nb' of samples with their label
+    Generates a number 'nb' of samples with their label.
     """
     input_ = Tensor(nb, 2).uniform_(0,1)
     disk_center = Tensor(nb, 2).fill_(0.5)
@@ -43,3 +43,11 @@ def plot_data(input_, target_, figure_size = 6, show_plot = True):
     plt.title('Distribution of generated data')
     if show_plot == True:
         plt.show()
+
+def convert_to_one_hot(data_target):
+    """convert data target to one-hot encoding"""
+    return torch.cat((1-data_target.unsqueeze(1), data_target.unsqueeze(1)),1)
+
+def normalize_data(data):
+    mu, std = data.mean(),data.std()
+    data.sub_(mu).div_(std)
