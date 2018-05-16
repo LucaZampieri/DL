@@ -35,14 +35,15 @@ def plot_data(input_, target_, figure_size = 6, show_plot = True):
     print ('Are the classes balanced?')
     print ('#true_samples:  ',input_true.size())
     print ('#false_samples: ',input_false.size())
-    p1 = plt.figure(1,figsize=(figure_size,figure_size))
-    plt.plot(input_true[:,0].numpy(),input_true[:,1].numpy(),'r.',label='within circle')
-    plt.plot(input_false[:,0].numpy(),input_false[:,1].numpy(),'b.',label='outside circle')
-    plt.xlim(0,1), plt.ylim(0,1)
-    plt.legend(fontsize='x-large')
-    plt.title('Distribution of generated data')
     if show_plot == True:
+        p1 = plt.figure(1,figsize=(figure_size,figure_size))
+        plt.plot(input_true[:,0].numpy(),input_true[:,1].numpy(),'r.',label='within circle')
+        plt.plot(input_false[:,0].numpy(),input_false[:,1].numpy(),'b.',label='outside circle')
+        plt.xlim(0,1), plt.ylim(0,1)
+        plt.legend(fontsize='x-large')
+        plt.title('Distribution of generated data')
         plt.show()
+
 
 def convert_to_one_hot(data_target):
     """convert data target to one-hot encoding"""

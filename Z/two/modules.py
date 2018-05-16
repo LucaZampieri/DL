@@ -141,7 +141,6 @@ class ReLU(Module):
 class Tanh(Module):
     def __init__(self):
         super().__init__()
-
         self.params = []
 
     def forward(self, x):
@@ -157,7 +156,6 @@ class Tanh(Module):
 class Sigmoid(Module):
     def __init__(self):
         super().__init__()
-
         self.params = []
 
     def forward(self, x):
@@ -174,7 +172,6 @@ class Sigmoid(Module):
 class LossMSE(Module):
     def __init__(self):
         super().__init__()
-
         self.params = []
 
     def forward(self, y, t):
