@@ -85,33 +85,37 @@ class MyNet3(nn.Module):
         x = F.sigmoid(self.fc2(x))
         return x
 
-class MyNet4(nn.Module):
-    """Convolutional net with no dropout between convolutions and with
-    data augmentation done by the first layer"""
+class DANet3(nn.Module):
+    """Convolutional net with data augmentation done by the first layer. It simulates
+    subsampling more or less as done by the data augmentation used by some other models
+    The train input and test for this model should be of high resolution i.e. have lenght 500 """
     def __init__(self):
         super().__init__()
-        self.conv1 = nn.Conv2d(1, 4, (1, 5), dilation=2)
+        self.last_lenght = 46
+        self.conv1 = nn.Conv2d(1, 4, (1, 5),stride=(1,10), dilation=10)
+        self.batchnorm0 = nn.BatchNorm2d(1,False)
         self.batchnorm1 = nn.BatchNorm2d(4,False)
         self.conv2 = nn.Conv2d(4,4,(28,1))
         self.batchnorm2 = nn.BatchNorm2d(4, False) # Normalize
-        self.fc1 = nn.Linear(4*42,64)
+
+        self.fc1 = nn.Linear(4*self.last_lenght,64)
         self.fc2 = nn.Linear(64,1)
 
+
     def forward(self,x):
-        #print("input shape : {}".format(x.shape))
-        x = self.conv1(x)
-        #print("Shape after self.conv1(x) : {}".format(x.shape))
-        x = self.batchnorm1(x)
-        #print("Shape after self.batchnorm1(x) : {}".format(x.shape))
+        # subsample the signal and add them together
+        x0 = self.conv1(x[:,:,:,0:])
+        for i in range(1,10):
+            x0 = x0.add(self.conv1(x[:,:,:,i:]))
+
+        x = self.batchnorm1(x0)
+        x = F.dropout2d(x,0.5)
         x = self.conv2(x)
-        #print("Shape after self.conv2(x) : {}".format(x.shape))
         x = self.batchnorm2(x)
-        #print("Shape after self.batchnorm2(x) : {}".format(x.shape))
-        x = x.view(-1,4*42)
-        #print("Flatten shape for FC : {}".format(x.shape))
+        x = F.dropout2d(x,0.5)
+        x = x.view(-1,4*self.last_lenght)
         x = F.relu(self.fc1(x))
         x = F.dropout(x,0.6)
-        #print("after fc1 : {}".format(x.shape))
         x = F.sigmoid(self.fc2(x))
 
         return x

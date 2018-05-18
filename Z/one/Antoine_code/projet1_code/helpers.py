@@ -46,7 +46,8 @@ def prepare_train_with_validation(train_input,train_target,n_val_samples, DA = T
     train_idx = np.delete(np.arange(len(train_input)),val_idx) # deletes indices used in validation
 
     # Prepare validation data
-    val_x, val_y = (train_input[torch.LongTensor(val_idx),:,::10],(train_target[torch.LongTensor(val_idx)]) )
+    #val_x, val_y = (train_input[torch.LongTensor(val_idx),:,::10],(train_target[torch.LongTensor(val_idx)]) )
+    val_x, val_y = (train_input[torch.LongTensor(val_idx)],(train_target[torch.LongTensor(val_idx)]) )
     # unsqueeze to treat channels as a 2nd dimenstion of data
     val_X = Variable(torch.unsqueeze(val_x,1),requires_grad=True)
     val_Y = Variable(val_y)
