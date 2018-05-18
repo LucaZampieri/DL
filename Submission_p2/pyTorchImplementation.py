@@ -5,7 +5,6 @@ from torch.autograd import Variable
 from torch.nn import functional as F
 from torch import nn
 import torch
-from tqdm import trange
 
 # imports from this same folder
 import loadData
@@ -86,7 +85,7 @@ criterion = nn.MSELoss()
 
 loss_list = []
 train_acc = []
-for e in trange(epochs):
+for e in range(epochs):
     nb_corrects = 0
     train_loss = 0
 

@@ -6,8 +6,6 @@ and to do the corresponding plots
 import torch
 from torch import Tensor
 import math
-import tqdm
-from tqdm import trange
 import matplotlib.pyplot as plt
 
 
@@ -18,10 +16,8 @@ def train(model, optimizer, loss, train_input, train_target, epochs, mini_batch_
     at each epoch"""
     loss_list = []
     train_acc = []
-    if verbose == True:
-        my_range = range(epochs)
-    else:
-        my_range = trange(epochs) # nice visualisation
+    my_range = range(epochs)
+    
 
     for epoch in my_range:
         train_loss = 0
